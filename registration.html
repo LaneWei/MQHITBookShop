@@ -18,7 +18,6 @@
         }
 
         function onLineFocus(text_element, msg) {
-            text_element.className = "text-input";
             let msg_element = document.getElementById(text_element.name + "Msg");
             msg_element.className = "input-msg";
             if (text_element.type !== "password") msg_element.innerHTML = msg;
