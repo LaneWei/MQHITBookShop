@@ -1,0 +1,123 @@
+<html>
+
+<head>
+	<title>User Registration</title>
+
+    <style type="text/css">
+        div.page-bg {
+            width: 100%;
+            margin: 0;
+            padding: 20px 0;
+        }
+
+        div.page-body {
+            width: 500px;
+            margin: auto;
+            padding: 20px 10px 20px 10px;
+        }
+
+        div.reg-title {
+            margin-top: 50px;
+            margin-bottom: 10px;
+            padding: 0;
+        }
+
+        div.reg-form {
+            margin: auto;
+            padding: 75px 80px 20px 80px;
+        }
+
+        div.form-line {
+            margin: auto auto 30px;
+            padding: 5px 0;
+        }
+
+        div.form-input {
+            margin: 0;
+            padding: 0;
+        }
+
+        div.form-label {
+            text-align: left;
+            font-size: 115%;
+            font-weight: bold;
+        }
+
+        .reg-title {
+            text-align: left;
+            margin: 0;
+        }
+
+        ul {
+            list-style-type: disc;
+        }
+
+        input.text-input{
+            width: 100%;
+            height:40px;
+            padding: 8px;
+            text-align: left;
+            font-size: 115%;
+            border: thin solid black;
+        }
+
+        input.button {
+            width: 95%;
+            height:28px;
+            margin: 0;
+            padding: 0;
+            text-align:center;
+            font-size: 115%;
+        }
+
+        h1.title {
+            text-align: center;
+
+        }
+    </style>
+</head>
+
+
+
+
+<body>
+	<b>COMP344</b><br/>
+	
+	<div class="page-bg">
+		<div class="page-body">
+			<div class="reg-title">
+                <h1 align="center">MQ-HIT Online BookShop</h1>
+                <h4 align="right">I need to <a href="registration.html" target="_top">register</a></h4>
+			</div>
+			<div class="reg-form">
+				<form name="regForm" method="post" action="log-in.php">
+					<div id="formBody">
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>Username:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="username" type="text" class="text-input"
+                                       maxlength=40/>
+                            </div>
+						</div>
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>Password:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="password" type="password" class="text-input"
+                                       maxlength=6/>
+                            </div>
+						</div>
+						<div style="margin-top: 15px" align="center">
+							<input name="formConfirm" type="submit" class="button" value="Confirm"/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
