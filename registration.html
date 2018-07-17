@@ -1,5 +1,85 @@
 <html>
 
+<script type="text/javascript">
+    var flag = false;
+
+    function initForm() {
+        flag = false;
+        for (let element of document.regForm.elements) {
+            if (element.className !== "button") {
+                element.className = "text-input";
+                onLineBlur(element, function() {return true;}, "");
+            }
+        }
+        document.regForm.firstName.focus();
+    }
+
+    function onLineFocus(text_element, msg) {
+        text_element.className = "text-input";
+        let msg_element = document.getElementById(text_element.name + "Msg");
+        msg_element.className = "input-msg";
+        if (text_element.type !== "password") msg_element.innerHTML = msg;
+    }
+
+    function onLineBlur(text_element, validate, msg) {
+        let msg_element = document.getElementById(text_element.name + "Msg");
+        if (validate(text_element.value.trim())) {
+            text_element.className = "text-input";
+            if (text_element.type !== "password") msg_element.innerHTML = "&nbsp";
+            flag = true;
+        }
+        else {
+            text_element.className = "text-invalid-input";
+            msg_element.className = "input-error-msg";
+            if (text_element.type !== "password") msg_element.innerHTML = msg;
+            flag = false;
+        }
+    }
+
+    function validateAll() {
+        for (let element of document.regForm.elements) {
+            if (element.className !== "button")
+            {
+                element.blur();
+                if (flag === false) {
+                    alert("Please provide valid information.");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function validateNotBlank(value) {
+        return 0 !== value.length;
+    }
+
+    function validatePostcode(value) {
+        var i = parseInt(value, 10);
+        return i >= 1000 && i < 7000;
+    }
+
+    function validateCardNumber(value) {
+        var i = parseInt(value, 10);
+        return i >= 1000000000 && i <= 99999999999;
+    }
+
+    function validateCardExpire(value) {
+        var i = parseInt(value, 10);
+        i %= 100;
+        return i >= 1 && i <= 12;
+    }
+
+    function validateEmailAddress(value) {
+        return /^[\d\w.]+@(stu\.)?(mq\.edu\.au|hit\.edu\.cn)$/.test(value);
+    }
+
+    function validatePassword(value) {
+        return /[a-zA-Z]+\d[a-zA-Z]*/.test(value);
+    }
+
+</script>
+
 <head>
 	<title>User Registration</title>
 </head>
@@ -7,19 +87,19 @@
 <style type="text/css">
 	div.page-bg {
 		width: 100%;
-		margin: 0px;
-		padding: 20px 0px;
+		margin: 0;
+		padding: 20px 0;
 	}
 	
 	div.page-body {
-		width: 500px;
+		width: 600px;
 		margin: auto;
 		padding: 20px 10px 20px 10px;
 	}
 	
 	div.reg-title {
 		margin-bottom: 10px;
-		padding: 0px;
+		padding: 0;
 	}
 	
 	div.reg-form {
@@ -27,37 +107,71 @@
 		padding: 20px 80px; 
 	}
 	
-	div.info-line {
+	div.form-line {
 		margin: auto;
-		padding: 10px 0px 15px 0px;
+		padding: 5px 0;
 	}
-	
+
+    div.form-input {
+        margin: 0;
+        padding: 0;
+    }
+
+    div.form-label {
+        text-align: left;
+        font-size: 115%;
+        font-weight: bold;
+    }
+
+    div.input-msg, div.input-error-msg{
+        text-align: left;
+        font-size: 80%;
+        line-height: 90%;
+        margin: 2px 5px;
+    }
+
+    div.input-msg {
+        color: grey;
+    }
+
+    div.input-error-msg {
+        color: red;
+    }
+
 	p.reg-title {
 		text-align: left;
 		font-size: 95%;
 	}
-	
-	input.text-input {
+
+    ul {
+        list-style-type: disc;
+    }
+
+	input.text-input, input.text-invalid-input{
 		width: 100%;
-		height:30px;
-		padding: 2px 8px 4px 9px;
+		height:40px;
+		padding: 8px;
 		text-align: left;
 		font-size: 115%;
 	}
-	
+
+    input.text-input {
+        border: thin solid black;
+    }
+
+    input.text-invalid-input {
+        border: solid red;
+    }
+
 	input.button {
 		width: 49%;
 		height:28px;
-		margin: 0px;
-		padding: 0px;
+		margin: 0;
+		padding: 0;
 		text-align:center;
 		font-size: 115%;
 	}
-	
-	label {
-		text-align: left;
-		font-size: 120%;
-	}
+
 </style>
 
 
@@ -70,52 +184,121 @@
 				<p class="reg-title">User Registration</p>
 			</div>
 			<div class="reg-form">
-				<form id="regForm" method="post">
+				<form name="regForm" method="post" action="registration.php" onsubmit="return validateAll();">
 					<div id="formBody">
-						<div class="info-line">
-							<label>First Name:</label><br/>
-							<input id="firstName" type="text" class="text-input"/>
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>First Name:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="firstName" type="text" class="text-input"
+                                       maxlength=15 autofocus="autofocus"
+                                       onfocus="onLineFocus(this, 'Your first name should be within 15 characters.');"
+                                       onblur="onLineBlur(this, validateNotBlank, 'Please enter your first name');"/>
+                                <div id="firstNameMsg" class="input-msg">&nbsp</div>
+                            </div>
 						</div>
-                        <div class="info-line">
-                            <label>Last Name:</label><br/>
-                            <input id="lastName" type="text" class="text-input"/>
+                        <div class="form-line">
+                            <div class="form-label">
+                                <label>Last Name:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="lastName" type="text" class="text-input"
+                                       maxlength=15
+                                       onfocus="onLineFocus(this, 'Your last name should be within 15 characters.');"
+                                       onblur="onLineBlur(this, validateNotBlank, 'Please enter your last name');"/>
+                                <div id="lastNameMsg" class="input-msg">&nbsp</div>
+                            </div>
                         </div>
-						<div class="info-line">
-							<label>Mailing Address:</label><br/>
-							<input id="mailingAddress" type="text" class="text-input"/>
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>Mailing Address:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="mailingAddress" type="text" class="text-input"
+                                       maxlength=40
+                                       onfocus="onLineFocus(this, 'Mailing address should be within 40 characters.');"
+                                       onblur="onLineBlur(this, validateNotBlank, 'Please enter your mailing address');"/>
+                                <div id="mailingAddressMsg" class="input-msg">&nbsp</div>
+                            </div>
 						</div>
-                        <div class="info-line">
-                            <label>Postcode:</label><br/>
-                            <input id="postcode" type="text" class="text-input" maxlength=4 min=1000 max=6999 />
+                        <div class="form-line">
+                            <div class="form-label">
+                                <label>Postcode:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="postcode" type="text" class="text-input"
+                                       maxlength=4
+                                       onfocus="onLineFocus(this, 'Postcode should be a 4-digit number from 1000 to 6999.');"
+                                       onblur="onLineBlur(this, validatePostcode, 'Please enter a correct postcode.');"/>
+                                <div id="postcodeMsg" class="input-msg">&nbsp</div>
+                            </div>
                         </div>
-						<div class="info-line">
-							<label>Credit Card Number:</label><br/>
-							<input id="cardNumber" type="text" class="text-input" maxlength=10/>
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>Credit Card Number:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="cardNumber" type="text" class="text-input"
+                                       maxlength=10
+                                       onfocus="onLineFocus(this, 'Please enter your 10-digit card number.');"
+                                       onblur="onLineBlur(this, validateCardNumber, 'Please enter a correct card number.');"/>
+                                <div id="cardNumberMsg" class="input-msg">&nbsp</div>
+                            </div>
 						</div>
-						<div class="info-line">
-							<label>Credit Card Expire Date:</label><br/>
-							<input id="cardExpire" type="date" class="text-input"/>
-							<script type="text/javascript">
-								document.getElementById("cardExpire").valueAsDate = new Date();
-								</script>
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>Credit Card Expire Date:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="cardExpire" type="text" class="text-input"
+                                       maxlength=4
+                                       onfocus="onLineFocus(this, 'Please enter your 4-digit card expire date: YYMM.');"
+                                       onblur="onLineBlur(this, validateCardExpire, 'Please enter a correct card expire date.');"/>
+                                <div id="cardExpireMsg" class="input-msg">&nbsp</div>
+                            </div>
 						</div>
-						<div class="info-line">
-							<label>E-mail:</label><br/>
-							<input id="email" type="text" class="text-input"/>
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>E-mail Address:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="email" type="text" class="text-input"
+                                       maxlength=40
+                                       onfocus="onLineFocus(this, 'Only MQ or HIT email address will be accepted.');"
+                                       onblur="onLineBlur(this, validateEmailAddress, 'Please enter a valid email address.');"/>
+                                <div id="emailMsg" class="input-msg">&nbsp</div>
+                            </div>
 						</div>
-						<div class="info-line">
-							<label>Password:</label><br/>
-							<input id="password" type="password" class="text-input" maxlength=6/>
+						<div class="form-line">
+                            <div class="form-label">
+                                <label>Password:</label>
+                            </div>
+                            <div class="form-input">
+                                <input name="password" type="password" class="text-input"
+                                       maxlength=6
+                                       onfocus="onLineFocus(this, '');"
+                                       onblur="onLineBlur(this, validatePassword, '');"/>
+                                <div id="passwordMsg" class="input-msg">The password should:<br/>
+                                                                        <ul>
+                                                                            <li>contain totally 6 letters and numbers.</li>
+                                                                            <li>start with a letter and contain at least 1 digit.</li>
+                                                                        </ul>
+                                </div>
+                            </div>
 						</div>
 						<div style="margin-top: 15px" align="center">
-							<input id="formConfirm" type="submit" class="button" value="Confirm"/>
-							<input id="formReset" type="reset" class="button" value="Reset"/>
+							<input name="formConfirm" type="submit" class="button" value="Confirm"
+                                   onclick="return confirm('Confirm');"/>
+							<input name="formReset" type="reset" class="button" value="Reset"
+                                   onclick="if (confirm('Confirm')) initForm(); "/>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+    <script type="text/javascript">initForm();</script>
 </body>
 
 </html>
