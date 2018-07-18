@@ -3,25 +3,6 @@
 <head>
 	<title>BookShop login</title>
 
-    <script type="text/javascript">
-        function validateLogin() {
-            var flag = true;
-            for (let element of document.regForm.elements) {
-                if (element.className !== "button")
-                {
-                    if (!validateNotBlank(element.value)) {
-                        element.className = "text-invalid-input";
-                        flag = false;
-                    }
-                }
-            }
-            return flag;
-        }
-
-        function validateNotBlank(value) {
-            return 0 !== value.length;
-        }
-    </script>
     <style type="text/css">
         div.page-bg {
             width: 100%;
@@ -35,13 +16,13 @@
             padding: 20px 10px 20px 10px;
         }
 
-        div.reg-title {
+        div.login-title {
             margin-top: 50px;
             margin-bottom: 10px;
             padding: 0;
         }
 
-        div.reg-form {
+        div.login-form {
             margin: auto;
             padding: 75px 80px 20px 80px;
         }
@@ -62,7 +43,7 @@
             font-weight: bold;
         }
 
-        .reg-title {
+        .login-title {
             text-align: left;
             margin: 0;
         }
@@ -107,12 +88,12 @@
 	
 	<div class="page-bg">
 		<div class="page-body">
-			<div class="reg-title">
+			<div class="login-title">
                 <h1 align="center">MQ-HIT Online BookShop</h1>
                 <h4 align="right">I need to <a href="registration.html" target="_top">register</a></h4>
 			</div>
-			<div class="reg-form">
-				<form name="regForm" method="post" action="log-in.php" onsubmit="return validateLogin();">
+			<div class="login-form">
+				<form name="loginForm" method="post" action="log-in.php" onsubmit="return validateLogin();">
 					<div id="formBody">
 						<div class="form-line">
                             <div class="form-label">

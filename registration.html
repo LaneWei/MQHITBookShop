@@ -63,7 +63,7 @@
 
         function validateCardNumber(value) {
             var i = parseInt(value, 10);
-            return i >= 1e15 && i < 1e16;
+            return i >= 1e9 && i < 1e10;
         }
 
         function validateCardExpire(value) {
@@ -237,8 +237,8 @@
                             </div>
                             <div class="form-input">
                                 <input name="cardNumber" type="text" class="text-input"
-                                       maxlength=16
-                                       onfocus="onLineFocus(this, 'Please enter your 16-digit card number.');"
+                                       maxlength=10
+                                       onfocus="onLineFocus(this, 'Please enter your 10-digit card number.');"
                                        onblur="onLineBlur(this, validateCardNumber, 'Please enter a correct card number.');"/>
                                 <div id="cardNumberMsg" class="input-msg">&nbsp</div>
                             </div>
