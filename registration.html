@@ -44,7 +44,7 @@
                 {
                     element.blur();
                     if (flag === false) {
-                        alert("Please provide valid information.");
+                        alert("All fields must be filled in correctly.");
                         return false;
                     }
                 }
@@ -63,12 +63,12 @@
 
         function validateCardNumber(value) {
             var i = parseInt(value, 10);
-            return i >= 1000000000 && i <= 99999999999;
+            return i >= 1e15 && i < 1e16;
         }
 
         function validateCardExpire(value) {
             var i = parseInt(value, 10);
-            i %= 100;
+            i /= 100;
             return i >= 1 && i <= 12;
         }
 
@@ -92,11 +92,6 @@
             width: 600px;
             margin: auto;
             padding: 20px 10px 20px 10px;
-        }
-
-        div.reg-title {
-            margin-bottom: 10px;
-            padding: 0;
         }
 
         div.reg-form {
@@ -177,12 +172,13 @@
 
 <body>
 	<b>COMP344</b><br/>
+	<b>&nbsp;&nbsp;group1</b><br/>
 	
 	<div class="page-bg">
 		<div class="page-body">
 			<div class="reg-title">
-				<h5 class="reg-title">User Registration</h5>
-                <h5 class="reg-title">I need to <a href="log-in.html" target="_top">log in</a></h5>
+				<h1 align="center">User Registration</h1>
+                <h4 align="right">I need to <a href="log-in.html" target="_top">log in</a></h4>
 			</div>
 			<div class="reg-form">
 				<form name="regForm" method="post" action="registration.php" onsubmit="return validateAll();">
@@ -241,8 +237,8 @@
                             </div>
                             <div class="form-input">
                                 <input name="cardNumber" type="text" class="text-input"
-                                       maxlength=10
-                                       onfocus="onLineFocus(this, 'Please enter your 10-digit card number.');"
+                                       maxlength=16
+                                       onfocus="onLineFocus(this, 'Please enter your 16-digit card number.');"
                                        onblur="onLineBlur(this, validateCardNumber, 'Please enter a correct card number.');"/>
                                 <div id="cardNumberMsg" class="input-msg">&nbsp</div>
                             </div>
@@ -254,7 +250,7 @@
                             <div class="form-input">
                                 <input name="cardExpire" type="text" class="text-input"
                                        maxlength=4
-                                       onfocus="onLineFocus(this, 'Please enter your 4-digit card expire date: YYMM.');"
+                                       onfocus="onLineFocus(this, 'Please enter your 4-digit card expire date: MMYY.');"
                                        onblur="onLineBlur(this, validateCardExpire, 'Please enter a correct card expire date.');"/>
                                 <div id="cardExpireMsg" class="input-msg">&nbsp</div>
                             </div>
