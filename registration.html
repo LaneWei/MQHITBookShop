@@ -2,8 +2,9 @@
 
 <head>
 	<title>User Registration</title>
-
-    <script type="text/javascript">
+	<meta charset="utf-8"/>
+    
+	<script type="text/javascript">
         var flag = false;
 
         function initForm() {
@@ -49,6 +50,7 @@
                     }
                 }
             }
+
             return true;
         }
 
@@ -67,9 +69,21 @@
         }
 
         function validateCardExpire(value) {
-            var i = parseInt(value, 10);
-            i /= 100;
-            return i >= 1 && i <= 12;
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value))
+            {
+                return false;
+            }
+			var e_d = value.split("/");
+            var e_month = parseInt(e_d[0]);
+			var e_year = parseInt(e_d[1]) + 2000;
+			var c_month = new Date().getMonth() + 1;
+			var c_year = new Date().getFullYear();
+
+			if (e_year < c_year || (e_year == c_year && e_month <= c_month))
+            {
+                return false;
+            }
+            return true;
         }
 
         function validateEmailAddress(value) {
@@ -192,7 +206,7 @@
                                        maxlength=15 autofocus="autofocus"
                                        onfocus="onLineFocus(this, 'Your first name should be within 15 characters.');"
                                        onblur="onLineBlur(this, validateNotBlank, 'Please enter your first name');"/>
-                                <div id="firstNameMsg" class="input-msg">&nbsp</div>
+                                <div id="firstNameMsg" class="input-msg">&nbsp;</div>
                             </div>
 						</div>
                         <div class="form-line">
@@ -204,7 +218,7 @@
                                        maxlength=15
                                        onfocus="onLineFocus(this, 'Your last name should be within 15 characters.');"
                                        onblur="onLineBlur(this, validateNotBlank, 'Please enter your last name');"/>
-                                <div id="lastNameMsg" class="input-msg">&nbsp</div>
+                                <div id="lastNameMsg" class="input-msg">&nbsp;</div>
                             </div>
                         </div>
 						<div class="form-line">
@@ -216,7 +230,7 @@
                                        maxlength=40
                                        onfocus="onLineFocus(this, 'Mailing address should be within 40 characters.');"
                                        onblur="onLineBlur(this, validateNotBlank, 'Please enter your mailing address');"/>
-                                <div id="mailingAddressMsg" class="input-msg">&nbsp</div>
+                                <div id="mailingAddressMsg" class="input-msg">&nbsp;</div>
                             </div>
 						</div>
                         <div class="form-line">
@@ -228,7 +242,7 @@
                                        maxlength=4
                                        onfocus="onLineFocus(this, 'Postcode should be a 4-digit number from 1000 to 6999.');"
                                        onblur="onLineBlur(this, validatePostcode, 'Please enter a correct postcode.');"/>
-                                <div id="postcodeMsg" class="input-msg">&nbsp</div>
+                                <div id="postcodeMsg" class="input-msg">&nbsp;</div>
                             </div>
                         </div>
 						<div class="form-line">
@@ -240,7 +254,7 @@
                                        maxlength=10
                                        onfocus="onLineFocus(this, 'Please enter your 10-digit card number.');"
                                        onblur="onLineBlur(this, validateCardNumber, 'Please enter a correct card number.');"/>
-                                <div id="cardNumberMsg" class="input-msg">&nbsp</div>
+                                <div id="cardNumberMsg" class="input-msg">&nbsp;</div>
                             </div>
 						</div>
 						<div class="form-line">
@@ -249,10 +263,10 @@
                             </div>
                             <div class="form-input">
                                 <input name="cardExpire" type="text" class="text-input"
-                                       maxlength=4
-                                       onfocus="onLineFocus(this, 'Please enter your 4-digit card expire date: MMYY.');"
+                                       maxlength=5
+                                       onfocus="onLineFocus(this, 'Please enter your card expire date(expireDate > currentDate): MM/YY.');"
                                        onblur="onLineBlur(this, validateCardExpire, 'Please enter a correct card expire date.');"/>
-                                <div id="cardExpireMsg" class="input-msg">&nbsp</div>
+                                <div id="cardExpireMsg" class="input-msg">&nbsp;</div>
                             </div>
 						</div>
 						<div class="form-line">
@@ -264,7 +278,7 @@
                                        maxlength=40
                                        onfocus="onLineFocus(this, 'Only MQ or HIT email address will be accepted.');"
                                        onblur="onLineBlur(this, validateEmailAddress, 'Please enter a valid email address.');"/>
-                                <div id="emailMsg" class="input-msg">&nbsp</div>
+                                <div id="emailMsg" class="input-msg">&nbsp;</div>
                             </div>
 						</div>
 						<div class="form-line">
